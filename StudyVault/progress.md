@@ -2,14 +2,14 @@
 
 > Learner: anonymous
 > Started: 2026-04-13
-> Current: Week 1, Day 2
+> Current: Week 1, Day 3
 
 ## Week 1: Foundations (Build: NaiveTransactionManager)
 
 | Day | Topic | Theory | Build | Date | Notes |
 |-----|-------|--------|-------|------|-------|
 | D1 | ACID & raw JDBC | DEEP | COMPLETE | 2026-04-13 | autocommit 동작, rollback 명시 필요성, 커넥션 풀 반납 시 dirty connection 위험 이해 |
-| D2 | Spring AOP — CGLIB vs JDK Proxy | - | - | - | - |
+| D2 | Spring AOP — CGLIB vs JDK Proxy | DEEP | COMPLETE | 2026-04-13 | JDK Proxy 직접 구현, `$Proxy0` 생성 관찰, CGLIB는 extends 전략 / private 메서드 한계 이해 |
 | D3 | Self-invocation 함정 | - | - | - | - |
 | D4 | Propagation 개요 | - | - | - | - |
 | D5 | PlatformTransactionManager & Connection Binding | - | - | - | - |
@@ -43,7 +43,7 @@
 |---------|-------------|--------|--------------|
 | v0 | Raw JDBC (baseline) | COMPLETE | autocommit/commit/rollback 직접 실험으로 트랜잭션 경계 체득 |
 | v1 | Manual begin/commit/rollback | - | - |
-| v2 | JDK Dynamic Proxy interceptor | - | - |
+| v2 | JDK Dynamic Proxy interceptor | COMPLETE | `InvocationHandler.invoke()`로 BEFORE/AFTER 가로채기 구현, 프록시와 원본이 형제 관계임을 체득 |
 | v3 | + ThreadLocal ConnectionHolder | - | - |
 | v4 | + propagation (REQUIRED/REQUIRES_NEW) | - | - |
 | v5 | + rollback rules + readOnly | - | - |

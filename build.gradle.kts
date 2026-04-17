@@ -22,3 +22,7 @@ java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
 }
+
+tasks.withType<JavaExec> {
+    systemProperty("file.encoding", "utf-8")
+}
