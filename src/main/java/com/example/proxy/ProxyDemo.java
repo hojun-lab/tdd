@@ -1,5 +1,8 @@
 package com.example.proxy;
 
+import org.h2.jdbcx.JdbcDataSource;
+
+import javax.sql.DataSource;
 import java.lang.reflect.Proxy;
 import java.sql.*;
 
@@ -10,18 +13,23 @@ public class ProxyDemo {
 
     public static void main(String[] args) {
         try {
-            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            setupTables(conn);
-            OrderService target = new OrderServiceImpl(conn);
+            JdbcDataSource dataSource = new JdbcDataSource();
+
+            dataSource.setURL(URL);
+            dataSource.setUser(USER);
+            dataSource.setPassword(PASSWORD);
+
+            setupTables(dataSource.getConnection());
+            OrderService target = new OrderServiceImpl();
             OrderService proxy = (OrderService) Proxy.newProxyInstance(
                     target.getClass().getClassLoader(),
                     new Class[]{ OrderService.class },
-                    new TransactionHandler(target, conn)
+                    new TransactionHandler(target, dataSource)
             );
 
             System.out.println("프록시 클래스명: " + proxy.getClass().getName());
             proxy.placeOrder(1, 1000L);
-            printTableState(conn);
+            printTableState(dataSource.getConnection());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

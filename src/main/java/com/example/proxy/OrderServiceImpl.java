@@ -1,20 +1,17 @@
 package com.example.proxy;
 
+import com.example.tx.ConnectionHolder;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class OrderServiceImpl implements OrderService {
-    private Connection connection;
-
-    public OrderServiceImpl(Connection connection) {
-        this.connection = connection;
-    }
-
     @Override
     public void placeOrder(long userId, long amount) {
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = ConnectionHolder.getThreadConnection().createStatement();
+            System.out.println("HASHING = " + System.identityHashCode(ConnectionHolder.getThreadConnection()));
             statement.execute("INSERT INTO orders(user_id, amount) VALUES (1, 1)");
             throw new RuntimeException();
         } catch (SQLException e) {
